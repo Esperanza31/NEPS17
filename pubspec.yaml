@@ -44,6 +44,12 @@ dependencies:
   flutter_compass: ^0.7.0
   sliding_up_panel: ^2.0.0+1
   flutter_switch: ^0.3.2
+  amplify_core: ^2.0.0
+  amplify_datastore: ^2.0.0
+  amplify_flutter: ^2.0.0
+  amplify_api: ^2.0.0
+  uuid: ^4.4.0
+  mqtt_client: ^10.2.1
 
 
   # The following adds the Cupertino Icons font to your application.

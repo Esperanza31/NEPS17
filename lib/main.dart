@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mini_project_five/pages/map_page.dart';
 import 'package:mini_project_five/pages/loading.dart';
 import 'package:mini_project_five/pages/information.dart';
+import 'package:mini_project_five/pages/busdata.dart';
 
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await BusSchedule().loadData();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

@@ -30,7 +30,7 @@ class BusTimeFunctions {
                     Text(
                       'Upcoming bus: null',
                       style: TextStyle(
-                          fontSize: 15.0,
+                        fontSize: 15.0,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.w400,
                       ),
@@ -67,15 +67,16 @@ class BusTimeFunctions {
         ],
       );
     } else {
+
       int nextBusTimeDiff =
           upcomingArrivalTimes[0].difference(currentTime).inMinutes;
-      print("Next Bus Time Difference: $nextBusTimeDiff");
+      print("Upcoming Bus Time Difference: $nextBusTimeDiff");
 
       String nextNextBusTimeDiff = upcomingArrivalTimes.length > 1
           ? upcomingArrivalTimes[1].difference(currentTime).inMinutes.toString()
           : ' - ';
 
-      print("Next Next Bus Time Difference: $nextNextBusTimeDiff");
+      print("Next Bus Time Difference: $nextNextBusTimeDiff");
 
       return Column(
         children: [
@@ -94,9 +95,9 @@ class BusTimeFunctions {
                     Text(
                       'Upcoming bus: $nextBusTimeDiff minutes',
                       style: TextStyle(
-                          fontSize: 15.0,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
+                        fontSize: 15.0,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ],
@@ -119,7 +120,7 @@ class BusTimeFunctions {
                     Text(
                       'Next bus: $nextNextBusTimeDiff minutes',
                       style: TextStyle(
-                          fontSize: 15.0,
+                        fontSize: 15.0,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.w400,
                       ),

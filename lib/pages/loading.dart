@@ -22,3 +22,24 @@ class _LoadingState extends State<Loading> {
     );
   }
 }
+class LoadingScroll extends StatelessWidget {
+  const LoadingScroll({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 10),
+        Container(
+          color: Colors.lightBlue[100],
+          child: Center(
+            child: SpinKitWave(
+              color: Colors.white,
+              size: 30.0,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

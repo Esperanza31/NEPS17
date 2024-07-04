@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_project_five/pages/get_bus_time.dart';
 import 'package:mini_project_five/pages/busdata.dart';
-import 'package:mini_project_five/pages/location_service.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:mini_project_five/pages/map_page.dart';
-import 'package:mini_project_five/screen/morning_bus.dart';
 
 class BusPage extends StatefulWidget {
 
@@ -17,8 +13,9 @@ class BusPage extends StatefulWidget {
 
 class _BusPageState extends State<BusPage> {
   int selectedBox = 0;
-  LocationService _locationService = LocationService();
-  Map_Page _map_page = Map_Page();
+  BusSchedule _BusSchedule = BusSchedule();
+  //LocationService _locationService = LocationService();
+  //Map_Page _map_page = Map_Page();
 
   void updateSelectedBox(int box){
     setState(() {
@@ -38,47 +35,49 @@ class _BusPageState extends State<BusPage> {
             children: [
               Expanded(
                 child: GestureDetector(
-                  onTap: () => updateSelectedBox(1),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      height: 60,
-                      color:
-                      selectedBox == 1 ? Colors.blueAccent : Colors.grey,
-                      // Change color based on selection
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'King Albert Station',
+                  onTap: () => updateSelectedBox(1), // Update CLE
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 0),
+                    height: selectedBox == 1 ? 70 : 40,
+                    curve: Curves.easeOutCubic,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Container(
+                        color: selectedBox == 1 ? Colors.blueAccent : Colors.grey,
+                        child: Center(
+                          child: Text(
+                            'KAP',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 15,
+                              fontSize: 18,
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
+
               SizedBox(width: 8),
               Expanded(
                 child: GestureDetector(
-                  onTap: () => updateSelectedBox(2),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      height: 60,
-                      color:
-                      selectedBox == 2 ? Colors.blueAccent : Colors.grey,
-                      // Change color based on selection
-                      child: Center(
-                        child: Text(
-                          'Clementi Station',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
+                  onTap: () => updateSelectedBox(2), // Update CLE
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 0),
+                    height: selectedBox == 2 ? 70 : 40,
+                    curve: Curves.easeOutCubic,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Container(
+                        color: selectedBox == 2 ? Colors.blueAccent : Colors.grey,
+                        child: Center(
+                          child: Text(
+                            'CLE',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
@@ -91,8 +90,8 @@ class _BusPageState extends State<BusPage> {
         ),
         SizedBox(height: 16),
         BusTimeFunctions.getBusTime(selectedBox == 1
-            ? KTABus1ArrivalTime
-            : CLTBus1ArrivalTime),
+            ? _BusSchedule.KAPArrivalTime
+            : _BusSchedule.CLEArrivalTime),
         SizedBox(height: 16),
       ],
     );

@@ -8,11 +8,14 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:http/http.dart';
 
 class LocationService {
+
+  List<LatLng> latlng = [];
+  List<String> BusStop = [];
+
   Future<LatLng?> getCurrentLocation() async {
     try {
       await Geolocator.checkPermission();
@@ -25,6 +28,30 @@ class LocationService {
       print('Error getting current location: $e');
       return null;
     }
+  }
+
+  Future<void> BusData() async{
+  try {
+    Response response = await get(Uri.parse(
+        'https://hvdh5rt2l0.execute-api.ap-southeast-2.amazonaws.com/PROUD/Datalist?index=BusStops'));
+    List <dynamic> data = jsonDecode(response.body);
+
+    for (var item in data) {
+      List<dynamic> positions = item['positions'];
+      for (var position in positions) {
+        List<double> pos = position['pos'].cast<double>();
+        String id = position['id'];
+        latlng.add(LatLng(pos[0], pos[1]));
+        BusStop.add(id);
+        print(latlng);
+        print(id);
+      }
+    }
+  }
+  catch (e) {
+    print('caugh error: $e');
+  }
+
   }
 
   void initCompass(Function(double) updateHeading) {
@@ -54,26 +81,47 @@ class LocationService {
           );
         }
 
-        return MarkerLayer(
-          markers: [
-            Marker(
-              point: currentLocation,
-              child: CustomPaint(
-                size: Size(200, 200),
-                painter: CompassPainter(
-                  direction: heading,
-                  arcStartAngle: 0, // Adjust as needed
-                  arcSweepAngle: 360,
+        return Stack(
+          children: [
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: currentLocation,
+                  child: CustomPaint(
+                    size: Size(200, 200),
+                    painter: CompassPainter(
+                      direction: heading,
+                      arcStartAngle: 0, // Adjust as needed
+                      arcSweepAngle: 360,
+                    ),
+                  ),
                 ),
-              ),
+                for (int i = 0; i < latlng.length; i++)
+                  Marker(
+                    point: latlng[i],
+                    width: 100,
+                    height: 60,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          BusStop[i],
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Icon(
+                          Icons.directions_bus_filled_outlined,
+                          color: Colors.red,
+                          size: 30,
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
             ),
-            for (int i=0; i < busStops.length; i++)
-              Marker(
-                point: busStopCoordinates[i],
-                  child: Icon(Icons.directions_bus_filled_outlined,
-                  color: Colors.red,
-                  size: 30),
-                )
           ],
         );
       },
@@ -146,29 +194,3 @@ class CompassPainter extends CustomPainter {
     return degrees * math.pi / 180;
   }
 }
-
-final List<String> busStops = [
-  'Main Entrance',
-  'Blk 23',
-  'Sports Hall',
-  'SIT',
-  'Blk 44',
-  'Blk 37',
-  'Makan Place',
-  'Health Science',
-  'LSCT',
-  'Blk 72',
-];
-
-final List<LatLng> busStopCoordinates =[
-  LatLng(1.3327930713846318, 103.77771893587253),
-  LatLng(1.3339219201675242, 103.77574132061896),
-  LatLng(1.3350826567868576, 103.7754223503998),
-  LatLng(1.3343686930989717, 103.77435631203087),
-  LatLng(1.3329522845882348, 103.77145520892851),
-  LatLng(1.3327697559194817, 103.77323977064727),
-  LatLng(1.3324019134469306, 103.7747380910866),
-  LatLng(1.3298012679376835, 103.77465550100018),
-  LatLng(1.3311533369747423, 103.77490110804173),
-  LatLng(1.3312394356934057, 103.77644173403719)
-];

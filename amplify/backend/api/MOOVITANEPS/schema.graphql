@@ -1,0 +1,21 @@
+type KAP @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  BusStop: String!
+  TripNo: Int!
+  Count: Int!
+}
+
+type CLE @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  BusStop: String!
+  TripNo: Int!
+  Count: Int!
+}
+
+type BOOKINGDETAILS5 @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  MRTStation: String!
+  TripNo: Int!
+  BusStop: String!
+}
+ 

@@ -49,5 +49,11 @@
 	<key>This app needs access to location when open.</key>
 	<string>NSLocationAlwaysAndWhenInUseUsageDescription</string>
     <key>This app needs access to location when in the background. </key>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Looking for local tcp Bonjour service</string>
+    <key>NSBonjourServices</key>
+    <array>
+      <string>mqtt.tcp</string>
+    </array>
 </dict>
 </plist>
